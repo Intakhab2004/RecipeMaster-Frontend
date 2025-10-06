@@ -1,7 +1,7 @@
 "use client"
 
 
-import { FaUser } from "react-icons/fa";
+import { FaTools, FaUser } from "react-icons/fa";
 import { GiCampCookingPot } from "react-icons/gi";
 import { MdOutlineChecklist } from "react-icons/md";
 import Link from "next/link";
@@ -15,10 +15,13 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Contact2Icon, IndentIncrease, LayoutDashboard, LogIn, LogOut, LogOutIcon, LucideHome } from "lucide-react";
+import { Contact2Icon, IndentIncrease, LayoutDashboard, Loader2, LogIn, LogOut, LucideHome } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
 
 
 export function DesktopDropdown(){
+    const {logoutLoader, logout} = useAuth();
+
     return (
         <DropdownMenu modal={false}>
             <DropdownMenuTrigger asChild>
@@ -37,11 +40,24 @@ export function DesktopDropdown(){
                     </DropdownMenuItem>
 
                     <DropdownMenuItem>
-                        <button 
-                            // onClick={() => signOut({callbackUrl: "/"})} 
+                        <button
+                            disabled={logoutLoader}
+                            onClick={logout}
                             className="flex gap-2 items-center text-gray-500 dark:text-gray-400 font-medium cursor-pointer"
                         >
-                            <LogOut className='w-5 h-5'/> Logout
+                            {
+                                logoutLoader ? (
+                                            <>
+                                                <Loader2 className="mr-2 h-5 w-5 animate-spin"/> Please wait
+                                            </>
+                                ) 
+                                : 
+                                (
+                                    <>
+                                        <LogOut className='w-5 h-5'/> Logout
+                                    </>
+                                )
+                            }
                         </button>
                     </DropdownMenuItem>
                 </DropdownMenuGroup>
@@ -52,6 +68,7 @@ export function DesktopDropdown(){
 
 
 export function MobileDropdown(){
+    const {user, logoutLoader, logout} = useAuth();
 
     return (
         <DropdownMenu modal={false}>
@@ -70,7 +87,7 @@ export function MobileDropdown(){
                         </Link>
                     </DropdownMenuItem>
                     {
-                        true && (
+                        user && (
                             <DropdownMenuItem>
                                 <Link href="/dashboard" className=" flex gap-2 items-center font-semibold">
                                     <LayoutDashboard /> Dashboard
@@ -79,7 +96,7 @@ export function MobileDropdown(){
                         )
                     }
                     {
-                        true && (
+                        user && (
                             <DropdownMenuItem>
                                 <Link href="/notes-collections" className=" flex gap-2 items-center font-semibold">
                                     <GiCampCookingPot /> Get Recipe
@@ -88,7 +105,7 @@ export function MobileDropdown(){
                         )
                     }
                     {
-                        true && (
+                        user && (
                             <DropdownMenuItem>
                                 <Link href="/upload-notes" className=" flex gap-2 items-center font-semibold">
                                     <MdOutlineChecklist /> Log Nutrition
@@ -96,7 +113,7 @@ export function MobileDropdown(){
                             </DropdownMenuItem>
                         )
                     }
-                    {true && <DropdownMenuSeparator />}
+                    {user && <DropdownMenuSeparator />}
 
                     <DropdownMenuItem>
                         <Link href="/about" className=" flex gap-2 items-center font-semibold">
@@ -108,22 +125,41 @@ export function MobileDropdown(){
                             <Contact2Icon/> Contact Us
                         </Link>
                     </DropdownMenuItem>
+                    <DropdownMenuItem>
+                        <Link href="/features" className=" flex gap-2 items-center font-semibold">
+                            <FaTools /> Features
+                        </Link>
+                    </DropdownMenuItem>
+
+                    <DropdownMenuSeparator />
 
                     <DropdownMenuItem>
                         {
-                            !true ? (
+                            !user ? (
                                             <Link href="/sign-up" className=" flex gap-2 items-center font-semibold">
                                                 <LogIn /> Sign up
                                             </Link>
                                         ) 
                                         : 
                                         (
-                                            <button 
-                                                // onClick={() => signOut({callbackUrl: "/"})} 
-                                                className="flex gap-2 items-center justify-center w-full font-semibold border-1 rounded-md py-1 px-4 transition-all duration-300 border-gray-400 
-                                                text-black/90 bg-gradient-to-r from-red-300 to-gray-100 shadow-sm"
+                                            <button
+                                                disabled={logoutLoader}
+                                                onClick={logout}
+                                                className="flex gap-2 items-center text-gray-500 dark:text-gray-400 font-medium cursor-pointer"
                                             >
-                                                <LogOutIcon className="text-black"/> Logout
+                                                {
+                                                    logoutLoader ? (
+                                                                <>
+                                                                    <Loader2 className="mr-2 h-5 w-5 animate-spin"/> Please wait
+                                                                </>
+                                                    ) 
+                                                    : 
+                                                    (
+                                                        <>
+                                                            <LogOut className='w-5 h-5'/> Logout
+                                                        </>
+                                                    )
+                                                }
                                             </button>
                                         )
                         }

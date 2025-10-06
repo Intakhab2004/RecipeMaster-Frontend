@@ -13,7 +13,7 @@ const links = ["Home", "About", "Contact", "Features"];
 
 
 export default function NavBar(){
-    const {token, setToken, loading} = useAuth();
+    const {user, loading} = useAuth();
     const pathName = usePathname();
 
     if(loading){
@@ -59,10 +59,10 @@ export default function NavBar(){
 
                 <div className="flex items-center gap-3">
                     {
-                        !token ? (
+                        !user ? (
                             <div className="hidden md:flex gap-3">
                                 <Link 
-                                    href="/signin"
+                                    href="/sign-in"
                                     className="px-4 py-[6px] font-semibold rounded-md bg-orange-500 text-white cursor-pointer 
                                         hover:bg-orange-600 transition"
                                 >

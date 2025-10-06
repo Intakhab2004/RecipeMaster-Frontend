@@ -2,33 +2,110 @@
 
 
 import { createContext, ReactNode, useContext, useEffect, useState } from "react"
-import Cookies from "js-cookie";
+import axios, { isAxiosError } from "axios";
+import { auth, getData } from "@/services/apiUrl";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 interface AuthContextType {
-    token: string | null;
-    setToken: (token: string | null) => void;
+    user: any | null;
+    setUser: (user: any | null) => void;
     loading: boolean;
+    logoutLoader: boolean;
+    logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 
 export const AuthProvider = ({children}: {children: ReactNode} ) => {
-    const [token, setToken] = useState<string | null>(null);
-    const [loading, setLoading] = useState(false);
+    const [user, setUser] = useState<any | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [logoutLoader, setLogoutLoader] = useState(false);
+    const router = useRouter();
 
     useEffect(() => {
-        setLoading(true);
+        if(!user){
+            const fetchUser = async() => {
+                setLoading(true);
 
-        const tokenString = Cookies.get("token") ?? null;
-        setToken(tokenString);
+                try{
+                    const response = await axios.get(getData.USER_DETAILS_API, {withCredentials: true});
+                    if(response.data.success) setUser(response.data.user);
+                    else setUser(null);
+                }
+                catch(error){
+                    if(isAxiosError(error)){
+                        console.log("Something went wrong while fetching user data: ", error.response?.data);
+                    }
+                    else if(error instanceof Error){
+                        console.log("General error: ", error.message);
+                    }
+                    else{
+                        console.log("An unknown error: ", error);
+                    }
 
-        setLoading(false);
+                    setUser(null);
+                }
+                finally{
+                    setLoading(false);
+                }
+            }
+
+            fetchUser();
+        }
+        else{
+            setLoading(false);
+        } 
         
     }, [])
 
+    const logout = async() => {
+        setLogoutLoader(true);
+
+        try{
+            const response = await axios.post(auth.LOGOUT_API, {}, {withCredentials: true});
+            if(response.data.success){
+                setUser(null);
+
+                const toastId = toast(
+                    "Success ✅",
+                    {
+                        description: response.data.message,
+                        action: {
+                            label: "Dismiss",
+                            onClick: () => {
+                                toast.dismiss(toastId);
+                            }
+                        }
+                    }
+                )
+
+                router.replace("/sign-in");
+            }
+        }
+        catch(error){
+            console.error("Logout failed:", error);
+            const toastId = toast(
+                "Logout Failed",
+                    {
+                    description: "Internal server error",
+                    action: {
+                        label: "Dismiss",
+                        onClick: () => {
+                            toast.dismiss(toastId);
+                        }
+                    }
+                }
+            )
+        }
+        finally{
+            setLogoutLoader(false);
+        }
+    }
+
     return (
-        <AuthContext.Provider value={{token, setToken, loading}}>
+        <AuthContext.Provider value={{user, setUser, loading, logoutLoader, logout}}>
             {children}
         </AuthContext.Provider>
     )
