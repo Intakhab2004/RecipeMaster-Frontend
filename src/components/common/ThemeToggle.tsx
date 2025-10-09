@@ -16,7 +16,9 @@ export const ThemeToggle = () => {
     return(
         <div
             onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-            className="p-2 rounded-full cursor-pointer bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 transition-colors duration-300">
+            className="p-2 rounded-full cursor-pointer bg-white dark:bg-[#2A2A2A] hover:bg-gray-300 dark:hover:bg-gray-600 
+                border border-[#FF7043] transition-colors duration-300"
+        >
             {
                 theme === "light" ? (
                                         <Moon size={20} className="text-gray-800"/>

@@ -14,7 +14,7 @@ export default function Home() {
 		<section className="min-h-screen bg-[#FFF8F0] dark:bg-[#1F1F1F] text-gray-900 dark:text-gray-100 overflow-x-hidden scroll-smooth">
 			<Navbar />
 
-			<div className="relative flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-16 md:py-24">
+			<div className="relative flex flex-col md:flex-row items-center justify-between px-4 md:px-16 py-16 md:py-24">
 				<div className="md:w-1/2 text-center md:text-left space-y-4">
 					<h1 className="text-4xl md:text-6xl font-extrabold text-[#FF5722] dark:text-[#FF7043] leading-tight">
 						Discover & Create <br /> Amazing Recipes 🍝
@@ -41,7 +41,7 @@ export default function Home() {
 				</div>
 			</div>
 
-			<div className="px-6 md:px-16 py-16 bg-white dark:bg-[#2A2A2A] text-center rounded-t-[3rem]">
+			<div className="px-4 md:px-16 py-16 bg-white dark:bg-[#2A2A2A] text-center rounded-t-[3rem] mb-16">
 				<h2 className="text-3xl md:text-4xl font-bold text-[#FF5722] dark:text-[#FF7043] mb-10">
 					Why Choose RecipeMaster?
 				</h2>
