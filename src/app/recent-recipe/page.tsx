@@ -13,10 +13,13 @@ import { Loader2 } from "lucide-react"
 
 
 export default function RecentRecipe(){
+    const [loader, setLoader] = useState(false);
     const [recentRecipes, setRecentRecipes] = useState<recipeType[]>([]);
 
     useEffect(() => {
         const getRecentRecipes = async() => {
+            setLoader(true);
+
             try{
                 const response = await axios.get(getData.RECENT_RECIPE_API, {withCredentials: true});
                 if(response.data.success){
@@ -48,7 +51,9 @@ export default function RecentRecipe(){
                             description: error.message,
                             action: {
                                 label: "Dismiss",
-                                onClick: () => toast.dismiss(toastId),
+                                onClick: () => {
+                                    toast.dismiss(toastId)
+                                },
                             },
                         }
                     )
@@ -61,17 +66,22 @@ export default function RecentRecipe(){
                             description: "Please try again later",
                             action: {
                                 label: "Dismiss",
-                                onClick: () => toast.dismiss(toastId),
+                                onClick: () => {
+                                    toast.dismiss(toastId)
+                                },
                             },
                         }
                     )
                 }
             }
+            finally{
+                setLoader(false);
+            }
         }
 
         getRecentRecipes();
 
-    }, [recentRecipes]);
+    }, []);
 
 
     return (
@@ -85,50 +95,61 @@ export default function RecentRecipe(){
                     <Sidebar />
                 </div>
         
-                <main className="flex-1 px-4 py-6 md:p-12 pb-20 overflow-y-auto bg-[#FFF8F0] dark:bg-[#1F1F1F] transition-colors duration-300">
-                    <div className="text-center mb-12">
-                        <h1 className="text-3xl md:text-4xl font-extrabold text-[#FF5722] dark:text-[#FF8A65] mb-3">
-                            Discover Delicious Recipes Instantly 🍲
-                        </h1>
-                        <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto text-sm md:text-base">
-                            Enter your favorite ingredients and let us do the magic, we&apos;ll find recipes that perfectly match your cravings! Explore, cook, and enjoy every bite.
-                        </p>
-                    </div>
-
-                    <div>
-                        <h2 className="text-2xl font-semibold text-[#FF5722] dark:text-[#FF8A65] mb-6">
-                            Recently Searched Recipes
-                        </h2>
-
-                        {
-                            recentRecipes && recentRecipes.length > 0 ? (
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                                    {
-                                        recentRecipes.map((recipe) => (
-                                            <RecipeCard
-                                                key={recipe.spoonacularId} 
-                                                recipe={recipe} 
-                                            />
-                                        ))
-                                    }
-                                </div>
-                            ) 
-                            : 
-                            (
-                            <div className="flex flex-col items-center justify-center mt-10 text-center">
-                                <img
-                                    src="https://cdn-icons-png.flaticon.com/512/3820/3820331.png"
-                                    alt="No recipes"
-                                    className="w-32 h-32 opacity-80 mb-4"
-                                />
-                                <p className="text-lg font-semibold text-gray-500 dark:text-gray-400">
-                                    No recent recipes found. Try searching something tasty!
+                {
+                    loader ? (
+                        <div className="w-full text-2xl font-bold flex flex-col justify-center items-center text-[#FF5722] dark:text-[#FF8A65]">
+                            <Loader2 className="w-10 h-10 animate-spin" />
+                            <p>Please wait...</p>
+                        </div>
+                    )
+                    :
+                    (
+                        <main className="flex-1 px-4 py-6 md:p-12 pb-20 overflow-y-auto bg-[#FFF8F0] dark:bg-[#1F1F1F] transition-colors duration-300">
+                            <div className="text-center mb-12">
+                                <h1 className="text-3xl md:text-4xl font-extrabold text-[#FF5722] dark:text-[#FF8A65] mb-3">
+                                    Discover Delicious Recipes Instantly 🍲
+                                </h1>
+                                <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto text-sm md:text-base">
+                                    Enter your favorite ingredients and let us do the magic, we&apos;ll find recipes that perfectly match your cravings! Explore, cook, and enjoy every bite.
                                 </p>
                             </div>
-                            )
-                        }
-                    </div>
-                </main>
+
+                            <div>
+                                <h2 className="text-2xl font-semibold text-[#FF5722] dark:text-[#FF8A65] mb-6">
+                                    Recently Searched Recipes
+                                </h2>
+
+                                {
+                                    recentRecipes && recentRecipes.length > 0 ? (
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                                            {
+                                                recentRecipes.map((recipe) => (
+                                                    <RecipeCard
+                                                        key={recipe.spoonacularId} 
+                                                        recipe={recipe} 
+                                                    />
+                                                ))
+                                            }
+                                        </div>
+                                    ) 
+                                    : 
+                                    (
+                                        <div className="flex flex-col items-center justify-center mt-10 text-center">
+                                            <img
+                                                src="https://cdn-icons-png.flaticon.com/512/3820/3820331.png"
+                                                alt="No recipes"
+                                                className="w-32 h-32 opacity-80 mb-4"
+                                            />
+                                            <p className="text-lg font-semibold text-gray-500 dark:text-gray-400">
+                                                No recent recipes found. Try searching something tasty!
+                                            </p>
+                                        </div>
+                                    )
+                                }
+                            </div>
+                        </main>
+                    )
+                }
 
             </div>
         

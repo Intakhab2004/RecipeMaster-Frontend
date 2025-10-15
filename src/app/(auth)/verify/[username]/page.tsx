@@ -89,7 +89,9 @@ export default function VerifyOtpPage() {
                         description: error.message,
                         action: {
                             label: "Dismiss",
-                            onClick: () => toast.dismiss(toastId),
+                            onClick: () => {
+                                toast.dismiss(toastId)
+                            },
                         }
                     }
                 )
@@ -102,7 +104,9 @@ export default function VerifyOtpPage() {
                         description: "Please try again later",
                         action: {
                             label: "Dismiss",
-                            onClick: () => toast.dismiss(toastId),
+                            onClick: () => {
+                                toast.dismiss(toastId)
+                            },
                         }
                     }
                 )
@@ -160,7 +164,9 @@ export default function VerifyOtpPage() {
                         description: error.message,
                         action: {
                             label: "Dismiss",
-                            onClick: () => toast.dismiss(toastId),
+                            onClick: () => {
+                                toast.dismiss(toastId)
+                            },
                         }
                     }
                 )
@@ -173,7 +179,9 @@ export default function VerifyOtpPage() {
                         description: "Please try again later",
                         action: {
                             label: "Dismiss",
-                            onClick: () => toast.dismiss(toastId),
+                            onClick: () => {
+                                toast.dismiss(toastId)
+                            },
                         }
                     }
                 )

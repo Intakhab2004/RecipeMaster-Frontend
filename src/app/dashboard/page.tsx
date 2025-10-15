@@ -1,43 +1,104 @@
 "use client"
 
 import Sidebar from "@/components/common/Sidebar"
-import { useState } from "react"
-import { Bookmark, Mail, User, Phone, Calendar, Heart } from "lucide-react"
+import { Bookmark, Mail, User, Phone, Calendar, Heart, Loader2 } from "lucide-react"
 import NavBar from "@/components/common/NavBar"
 import Footer from "@/components/common/Footer"
+import { recipeType } from "../get-recipe/page"
+import { useAuth } from "@/context/AuthContext"
+import { useRouter } from "next/navigation"
+import { useState } from "react"
+import axios, { isAxiosError } from "axios"
+import { toast } from "sonner"
+import { recipe } from "@/services/apiUrl"
 
 export default function Dashboard() {
-  const [user] = useState({
-    name: "",
-    username: "john_doe",
-    email: "john.doe@example.com",
-    gender: "Male",
-    phone: "+91 9876543210",
-    dob: "1998-10-12",
-    favoriteFood: "Paneer Butter Masala",
-    avatar: ""
-  })
+    const [loader, setLoader] = useState(false);
+    const { user, fetchUser } = useAuth();
+    const router = useRouter();
 
-  const savedRecipes = [
-    {
-      id: 1,
-      title: "Spaghetti Aglio e Olio",
-      image: "https://images.unsplash.com/photo-1601050690597-df555f8b43f6?w=600",
-      desc: "A simple Italian pasta dish made with garlic, olive oil, and chili flakes.",
-    },
-    {
-      id: 2,
-      title: "Grilled Chicken Salad",
-      image: "https://images.unsplash.com/photo-1600891964599-f61ba0e24092?w=600",
-      desc: "Healthy and flavorful salad topped with grilled chicken and veggies.",
-    },
-    {
-      id: 3,
-      title: "Avocado Toast",
-      image: "https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=600",
-      desc: "Crispy toast layered with mashed avocado, lime, and chili flakes.",
-    },
-  ]
+
+
+    const handleDelete = async(recipeId: number) => {
+        setLoader(true);
+
+        try{
+            const response = await axios.delete(
+                recipe.DELETE_RECIPE_API,
+                {
+                    data: {recipeId},
+                    withCredentials: true
+                }
+            )
+            if(response.data.success){
+                fetchUser();
+                console.log("Recipe deleted successfully");
+                const toastId = toast(
+                    "Success ✅",
+                    {
+                        description: response.data.message,
+                        action: {
+                            label: "Dismiss",
+                            onClick: () => {
+                                toast.dismiss(toastId);
+                            }
+                        }
+                    }
+                )
+            }
+        }
+        catch(error: unknown){
+            if(isAxiosError(error)){
+                console.log("Something went wrong while deleting the recipe: ", error.response?.data);
+                const toastId = toast(
+                    "Something went wrong",
+                    {
+                        description: error.response?.data?.message,
+                        action: {
+                            label: "Dismiss",
+                            onClick: () => {
+                                toast.dismiss(toastId);
+                            }
+                        }
+                    }
+                )
+            }
+            else if(error instanceof Error){
+                console.log("General error:", error.message);
+                const toastId = toast(
+                    "Unexpected error",
+                    {
+                        description: error.message,
+                        action: {
+                            label: "Dismiss",
+                            onClick: () => {
+                                toast.dismiss(toastId)
+                            },
+                        },
+                    }
+                )
+            }
+            else{
+                console.log("An unknown error: ", error);
+                const toastId = toast(
+                    "Something went wrong",
+                    {
+                        description: "Please try again later",
+                        action: {
+                            label: "Dismiss",
+                            onClick: () => {
+                                toast.dismiss(toastId)
+                            },
+                        },
+                    }
+                )
+            }
+        }
+        finally{
+            setLoader(false);
+        }
+    }
+
 
     return (
         <section className="min-h-screen flex flex-col bg-[#FFF8F0] dark:bg-[#1F1F1F] text-gray-800 dark:text-gray-100 transition-all duration-300">
@@ -84,19 +145,15 @@ export default function Dashboard() {
                             </div>
                             <div className="flex items-center gap-3">
                                 <User className="text-[#FF5722]" />
-                                <span>Gender: {user.gender}</span>
+                                <span>Gender: Male</span>
                             </div>
                             <div className="flex items-center gap-3">
                                 <Phone className="text-[#FF5722]" />
-                                <span>Phone: {user.phone}</span>
+                                <span>Phone: 12345</span>
                             </div>
                             <div className="flex items-center gap-3">
                                 <Calendar className="text-[#FF5722]" />
-                                <span>DOB: {user.dob}</span>
-                            </div>
-                            <div className="flex items-center gap-3 md:col-span-2">
-                                <Heart className="text-[#FF5722]" />
-                                <span>Favorite Food: {user.favoriteFood}</span>
+                                <span>DOB: 1-23-123</span>
                             </div>
                         </div>
                     </div>
@@ -107,29 +164,70 @@ export default function Dashboard() {
                         </h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                             {
-                                savedRecipes.map((recipe) => (
+                                user?.favoriteRecipes.map((recipe: recipeType) => (
                                     <div
-                                        key={recipe.id}
-                                        className="bg-[#FFF8F0] dark:bg-[#1F1F1F] rounded-2xl overflow-hidden shadow-md 
-                                            hover:scale-[1.03] transition-transform duration-300"
+                                        key={recipe.spoonacularId} 
+                                        className="bg-white dark:bg-[#2A2A2A] rounded-3xl overflow-hidden shadow-md hover:scale-[1.03] 
+                                            transition-transform duration-300 border border-transparent hover:border-[#FF7043]/50"
                                     >
                                         <img
-                                            src={recipe.image}
+                                            src={recipe.imageURL}
                                             alt={recipe.title}
                                             width={400}
                                             height={250}
                                             className="w-full h-48 object-cover"
                                         />
-                                        <div className="p-4">
-                                            <h4 className="text-lg font-semibold text-[#FF5722] dark:text-[#FF8A65]">
+
+                                        <div className="p-5">
+                                            <h3 className="text-xl font-semibold text-[#FF5722] dark:text-[#FF8A65] mb-2">
                                                 {recipe.title}
+                                            </h3>
+
+                                            <h4 className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">
+                                                Ingredients:
                                             </h4>
-                                            <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
-                                                {recipe.desc}
-                                            </p>
-                                            <button className="mt-3 bg-[#FF5722] text-white px-4 py-2 rounded-xl hover:bg-[#FF7043] transition-all text-sm font-medium">
-                                                View Recipe
-                                            </button>
+
+                                            <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 text-sm space-y-1 max-h-24 overflow-y-auto scrollbar-thin scrollbar-thumb-[#FF7043]/40">
+                                                {
+                                                    recipe.ingredients.map((ing, index) => (
+                                                        <li key={index}>
+                                                            {ing}
+                                                        </li>
+                                                    ))
+                                                }
+                                            </ul>
+
+                                            <div className="mt-5 flex gap-4">
+                                                <button
+                                                    onClick={() => router.push(`/recipe-details/${recipe.spoonacularId}`)}
+                                                    className="w-full bg-[#FF5722] border border-[#FF7043] text-white py-2 rounded-xl 
+                                                    hover:bg-white hover:dark:bg-[#2A2A2A] hover:text-[#FF5722] 
+                                                    cursor-pointer transition-all duration-300 font-medium"
+                                                >
+                                                    View Recipe
+                                                </button>
+
+                                                <button
+                                                    disabled={loader}
+                                                    onClick={() => handleDelete(recipe.spoonacularId)}
+                                                    className="w-full border border-[#FF7043] text-[#FF5722] 
+                                                    dark:text-[#FF8A65] py-2 rounded-xl hover:bg-[#FF7043] 
+                                                    hover:text-black hover:dark:text-black cursor-pointer 
+                                                    transition-all duration-300 font-medium"
+                                                >
+                                                    {
+                                                        loader ? (
+                                                            <div className="flex justify-center items-center">
+                                                                <Loader2 className="mr-2 h-5 w-5 animate-spin"/> Wait
+                                                            </div>
+                                                        )
+                                                        :
+                                                        (
+                                                            "Delete"
+                                                        )
+                                                    }
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 ))

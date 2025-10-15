@@ -83,7 +83,9 @@ export default function GetRecipe(){
                         description: error.message,
                         action: {
                             label: "Dismiss",
-                            onClick: () => toast.dismiss(toastId),
+                            onClick: () => {
+                                toast.dismiss(toastId)
+                            },
                         },
                     }
                 )
@@ -96,7 +98,9 @@ export default function GetRecipe(){
                         description: "Please try again later",
                         action: {
                             label: "Dismiss",
-                            onClick: () => toast.dismiss(toastId),
+                            onClick: () => {
+                                toast.dismiss(toastId)
+                            },
                         },
                     }
                 )
@@ -199,7 +203,7 @@ export default function GetRecipe(){
                         )
                         :
                         (
-                            hasSearched && (
+                            !loader && hasSearched && (
                                 <p className="text-2xl text-center font-bold text-gray-400">
                                     No recipes found for the entered ingredients
                                 </p>

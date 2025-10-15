@@ -1,10 +1,14 @@
 "use client"
 
 import { recipeType } from "@/app/get-recipe/page";
+import { useRouter } from "next/navigation";
 
 
 
 export default function RecipeCard({recipe}: {recipe: recipeType}){
+    const router = useRouter();
+
+
     return (
         <div className="bg-white dark:bg-[#2A2A2A] rounded-3xl overflow-hidden shadow-md hover:scale-[1.03] transition-transform duration-300 
             border border-transparent hover:border-[#FF7043]/50"
@@ -36,8 +40,9 @@ export default function RecipeCard({recipe}: {recipe: recipeType}){
                     }
                 </ul>
 
-                <button 
-                    className="mt-4 w-full bg-[#FF5722] text-white py-2 rounded-xl hover:bg-[#FF7043] transition-all duration-300 font-medium"
+                <button
+                    onClick={() => router.push(`/recipe-details/${recipe.spoonacularId}`)}
+                    className="mt-4 w-full bg-[#FF5722] text-white py-2 rounded-xl hover:bg-[#FF7043] cursor-pointer transition-all duration-300 font-medium"
                 >
                     View Recipe
                 </button>
