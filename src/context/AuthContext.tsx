@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 interface AuthContextType {
     user: any | null;
     setUser: (user: any | null) => void;
+    fetchUser: () => void;
     loading: boolean;
     logoutLoader: boolean;
     logout: () => void;
@@ -24,40 +25,36 @@ export const AuthProvider = ({children}: {children: ReactNode} ) => {
     const [logoutLoader, setLogoutLoader] = useState(false);
     const router = useRouter();
 
-    useEffect(() => {
-        if(!user){
-            const fetchUser = async() => {
-                setLoading(true);
+    const fetchUser = async() => {
+        setLoading(true);
 
-                try{
-                    const response = await axios.get(getData.USER_DETAILS_API, {withCredentials: true});
-                    if(response.data.success) setUser(response.data.user);
-                    else setUser(null);
-                }
-                catch(error){
-                    if(isAxiosError(error)){
-                        console.log("Something went wrong while fetching user data: ", error.response?.data);
-                    }
-                    else if(error instanceof Error){
-                        console.log("General error: ", error.message);
-                    }
-                    else{
-                        console.log("An unknown error: ", error);
-                    }
-
-                    setUser(null);
-                }
-                finally{
-                    setLoading(false);
-                }
+        try{
+            const response = await axios.get(getData.USER_DETAILS_API, {withCredentials: true});
+            if(response.data.success) setUser(response.data.user);
+            else setUser(null);
+        }
+        catch(error){
+            if(isAxiosError(error)){
+                console.log("Something went wrong while fetching user data: ", error.response?.data);
+            }
+            else if(error instanceof Error){
+                console.log("General error: ", error.message);
+            }
+            else{
+                console.log("An unknown error: ", error);
             }
 
+            setUser(null);
+        }
+        finally{
+            setLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        if(!user){
             fetchUser();
         }
-        else{
-            setLoading(false);
-        } 
-        
     }, [])
 
     const logout = async() => {
@@ -105,7 +102,7 @@ export const AuthProvider = ({children}: {children: ReactNode} ) => {
     }
 
     return (
-        <AuthContext.Provider value={{user, setUser, loading, logoutLoader, logout}}>
+        <AuthContext.Provider value={{user, setUser, fetchUser, loading, logoutLoader, logout}}>
             {children}
         </AuthContext.Provider>
     )

@@ -15,7 +15,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Contact2Icon, IndentIncrease, LayoutDashboard, Loader2, LogIn, LogOut, LucideHome } from "lucide-react";
+import { Contact2Icon, IndentIncrease, LayoutDashboard, Loader2, LogIn, LogOut, LucideHome, Settings, TimerReset } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 
 
@@ -25,8 +25,8 @@ export function DesktopDropdown(){
     return (
         <DropdownMenu modal={false}>
             <DropdownMenuTrigger asChild>
-                <div className="p-2 rounded-md bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 cursor-pointer">
-                    <FaUser size={20} className="text-gray-800 dark:text-white"/>
+                <div className="p-2 rounded-md bg-white dark:bg-[#2A2A2A] hover:bg-gray-300 dark:hover:bg-gray-600 border border-[#FF7043] cursor-pointer">
+                    <FaUser size={20} className="text-[#FF5722]"/>
                 </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-44" align="start">
@@ -73,8 +73,8 @@ export function MobileDropdown(){
     return (
         <DropdownMenu modal={false}>
             <DropdownMenuTrigger asChild>
-                <div className="p-2 rounded-md bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 cursor-pointer">
-                    <FaUser size={20} className="text-gray-800 dark:text-white"/>
+                <div className="p-2 rounded-md bg-white dark:bg-[#2A2A2A] hover:bg-gray-300 dark:hover:bg-gray-600 border border-[#FF7043] cursor-pointer">
+                    <FaUser size={20} className="text-[#FF5722]"/>
                 </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-44" align="start">
@@ -98,7 +98,7 @@ export function MobileDropdown(){
                     {
                         user && (
                             <DropdownMenuItem>
-                                <Link href="/notes-collections" className=" flex gap-2 items-center font-semibold">
+                                <Link href="/get-recipe" className=" flex gap-2 items-center font-semibold">
                                     <GiCampCookingPot /> Get Recipe
                                 </Link>
                             </DropdownMenuItem>
@@ -107,8 +107,17 @@ export function MobileDropdown(){
                     {
                         user && (
                             <DropdownMenuItem>
-                                <Link href="/upload-notes" className=" flex gap-2 items-center font-semibold">
+                                <Link href="/log-nutrition" className=" flex gap-2 items-center font-semibold">
                                     <MdOutlineChecklist /> Log Nutrition
+                                </Link>
+                            </DropdownMenuItem>
+                        )
+                    }
+                    {
+                        user && (
+                            <DropdownMenuItem>
+                                <Link href="/recent-recipe" className=" flex gap-2 items-center font-semibold">
+                                    <TimerReset /> Recent Recipe
                                 </Link>
                             </DropdownMenuItem>
                         )
@@ -130,6 +139,15 @@ export function MobileDropdown(){
                             <FaTools /> Features
                         </Link>
                     </DropdownMenuItem>
+                    {
+                        user && (
+                            <DropdownMenuItem>
+                                <Link href="/setting" className=" flex gap-2 items-center font-semibold">
+                                    <Settings /> Settings
+                                </Link>
+                            </DropdownMenuItem>
+                        )
+                    }
 
                     <DropdownMenuSeparator />
 

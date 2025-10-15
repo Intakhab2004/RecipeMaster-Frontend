@@ -15,7 +15,7 @@ export default function Contact(){
     const form = useForm();
 
     return (
-        <section className="min-h-screen px-6 md:px-20 py-20 bg-[#FFF8F0] dark:bg-[#1F1F1F] transition-colors duration-300">
+        <section className="min-h-screen px-4 md:px-20 py-20 bg-[#FFF8F0] dark:bg-[#1F1F1F] transition-colors duration-300">
             <div className="text-center mb-16">
                 <h2 className="text-4xl md:text-5xl font-bold text-[#FF5722] dark:text-[#FF8A65] mb-4">
                     Get in Touch ✉️

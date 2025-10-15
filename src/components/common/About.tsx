@@ -9,7 +9,7 @@ import img4 from "@/assets/food4.jpg";
 
 export default function About() {
     return (
-        <section className="px-6 md:px-16 py-20 bg-[#FFF8F0] dark:bg-[#1F1F1F] text-gray-800 dark:text-gray-100 overflow-hidden">
+        <section className="px-4 md:px-16 py-20 bg-[#FFF8F0] dark:bg-[#1F1F1F] text-gray-800 dark:text-gray-100 overflow-hidden">
             <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-10">
                 <div className="md:w-1/2 space-y-6 text-center md:text-left">
                     <h2 className="text-4xl md:text-5xl font-extrabold leading-tight">
@@ -27,7 +27,7 @@ export default function About() {
                     </p>
                 </div>
 
-                <div className="md:w-1/2 flex justify-center">
+                <div className="hidden md:flex w-1/2 justify-center">
                     <Image
                         src={img1.src}
                         alt="Cooking image"
@@ -108,7 +108,7 @@ export default function About() {
                 </div>
             </div>
 
-            <div className="mt-20 px-8 md:px-20 py-16 bg-gray-100 dark:bg-[#2A2A2A] rounded-3xl shadow-lg text-center">
+            <div className="mt-20 px-4 md:px-20 py-16 bg-gray-100 dark:bg-[#2A2A2A] rounded-3xl shadow-lg text-center">
                 <h3 className="text-3xl font-bold text-[#FF5722] dark:text-[#FF7043] mb-6">
                     Our Vision 🌍
                 </h3>

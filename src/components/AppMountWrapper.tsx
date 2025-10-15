@@ -15,9 +15,7 @@ export default function AppMountWrapper({children}: {children: ReactNode}){
     
     if (!mounted){
         return (
-            <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-orange-50 to-pink-50 
-                dark:bg-gradient-to-b dark:from-blue-900 dark:to-black/90"
-            >
+            <div className="flex items-center justify-center min-h-screen bg-orange-50 dark:bg-[#1F1F1F]">
                 <CoffeeLoader />
             </div>
         )

@@ -44,7 +44,7 @@ const features = [
 export default function Features(){
     return (
         <section className="min-h-screen bg-[#FFF8F0] dark:bg-[#1F1F1F] text-gray-900 dark:text-gray-100 scroll-smooth">
-            <div className="px-6 md:px-16 py-16 bg-white dark:bg-[#2A2A2A] rounded-t-[3rem] text-center">
+            <div className="px-4 md:px-16 py-16 bg-white dark:bg-[#2A2A2A] rounded-t-[3rem] text-center">
                 <h2 className="text-3xl md:text-4xl font-bold text-[#FF5722] dark:text-[#FF7043] mb-12">
                     Explore Our Features
                 </h2>
@@ -72,7 +72,7 @@ export default function Features(){
                 </div>
             </div>
 
-            <div className="px-6 md:px-16 py-20 text-center bg-gray-100 dark:bg-[#2A2A2A] rounded-3xl mx-6 md:mx-16 mt-16 mb-10 shadow-lg">
+            <div className="px-4 md:px-16 py-20 text-center bg-gray-100 dark:bg-[#2A2A2A] rounded-3xl mx-4 md:mx-16 mt-16 mb-10 shadow-lg">
                 <h2 className="text-3xl md:text-4xl font-bold mb-4 text-[#FF5722] dark:text-[#FF7043]">
                     Future Advancements 🚀
                 </h2>

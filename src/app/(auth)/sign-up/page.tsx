@@ -108,7 +108,9 @@ export default function SignUpPage(){
                         description: error.message,
                         action: {
                             label: "Dismiss",
-                            onClick: () => toast.dismiss(toastId),
+                            onClick: () => {
+                                toast.dismiss(toastId)
+                            },
                         },
                     }
                 )
@@ -121,7 +123,9 @@ export default function SignUpPage(){
                         description: "Please try again later",
                         action: {
                             label: "Dismiss",
-                            onClick: () => toast.dismiss(toastId),
+                            onClick: () => {
+                                toast.dismiss(toastId)
+                            },
                         },
                     }
                 )
