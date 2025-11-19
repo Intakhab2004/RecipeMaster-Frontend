@@ -29,3 +29,9 @@ export const getData = {
     USER_DETAILS_API: BASE_URL + "/data/user-details",
     RECENT_RECIPE_API: BASE_URL + "/data/get-recent-recipe"
 }
+
+export const userProfile = {
+    UPDATE_PERSONAL_DETAILS_API: BASE_URL + "/profile/update-details",
+    UPDATE_PROFILE_IMAGE_API: BASE_URL + "/profile/update-profilePic",
+    DELETE_USER_API: BASE_URL + "/profile/delete-user"
+}

@@ -99,6 +99,9 @@ export default function Dashboard() {
         }
     }
 
+    if(!user){
+        return null;
+    }
 
     return (
         <section className="min-h-screen flex flex-col bg-[#FFF8F0] dark:bg-[#1F1F1F] text-gray-800 dark:text-gray-100 transition-all duration-300">
@@ -116,7 +119,7 @@ export default function Dashboard() {
                         p-8 mb-10 transition-all duration-300"
                     >
                         <img
-                            src={user.avatar ? user.avatar : `https://api.dicebear.com/9.x/croodles/svg?seed=${user.username}`}
+                            src={user?.avatar?.imageURL ? user.avatar.imageURL : `https://api.dicebear.com/9.x/croodles/svg?seed=${user.username}`}
                             alt={user.name}
                             width={150}
                             height={150}
@@ -125,7 +128,9 @@ export default function Dashboard() {
                         <div className="text-center md:text-left">
                             <h2 className="text-3xl font-bold text-[#FF5722] dark:text-[#FF8A65] mb-2">
                                 {
-                                    user.name ? user.name : "Full Name"
+                                    (user?.personalDetails?.firstName || user?.personalDetails?.lastName)
+                                        ? `${user?.personalDetails?.firstName ?? ""} ${user?.personalDetails?.lastName ?? ""}`.trim()
+                                        : "Full name"
                                 }
                             </h2>
                             <p className="text-gray-600 dark:text-gray-300">
@@ -145,15 +150,26 @@ export default function Dashboard() {
                             </div>
                             <div className="flex items-center gap-3">
                                 <User className="text-[#FF5722]" />
-                                <span>Gender: Male</span>
+                                <span>Gender: {user?.personalDetails?.gender || "Not Mentioned"}</span>
                             </div>
                             <div className="flex items-center gap-3">
                                 <Phone className="text-[#FF5722]" />
-                                <span>Phone: 12345</span>
+                                <span>Phone: {user?.personalDetails?.contactNumber || "Not Mentioned"}</span>
                             </div>
                             <div className="flex items-center gap-3">
                                 <Calendar className="text-[#FF5722]" />
-                                <span>DOB: 1-23-123</span>
+                                <span>
+                                    DOB: 
+                                    {
+                                        user?.personalDetails?.DOB ? new Date(user.personalDetails.DOB).toLocaleDateString("en-GB", {
+                                            day: "numeric",
+                                            month: "short",
+                                            year: "numeric",
+                                        })
+                                        :
+                                        "Not Mentioned"
+                                    }
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -164,73 +180,82 @@ export default function Dashboard() {
                         </h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                             {
-                                user?.favoriteRecipes.map((recipe: recipeType) => (
-                                    <div
-                                        key={recipe.spoonacularId} 
-                                        className="bg-white dark:bg-[#2A2A2A] rounded-3xl overflow-hidden shadow-md hover:scale-[1.03] 
-                                            transition-transform duration-300 border border-transparent hover:border-[#FF7043]/50"
-                                    >
-                                        <img
-                                            src={recipe.imageURL}
-                                            alt={recipe.title}
-                                            width={400}
-                                            height={250}
-                                            className="w-full h-48 object-cover"
-                                        />
+                                user?.favoriteRecipes?.length === 0 && (
+                                    <p className="text-center col-span-full text-gray-600 dark:text-gray-300 text-lg">
+                                        You haven't saved any recipes yet 🍽️
+                                    </p>
+                                )
+                            }
 
-                                        <div className="p-5">
-                                            <h3 className="text-xl font-semibold text-[#FF5722] dark:text-[#FF8A65] mb-2">
-                                                {recipe.title}
-                                            </h3>
+                            {
+                                user?.favoriteRecipes?.length > 0 && 
+                                    user?.favoriteRecipes.map((recipe: recipeType) => (
+                                        <div
+                                            key={recipe.spoonacularId} 
+                                            className="bg-white dark:bg-[#2A2A2A] rounded-3xl overflow-hidden shadow-md hover:scale-[1.03] 
+                                                transition-transform duration-300 border border-transparent hover:border-[#FF7043]/50"
+                                        >
+                                            <img
+                                                src={recipe.imageURL}
+                                                alt={recipe.title}
+                                                width={400}
+                                                height={250}
+                                                className="w-full h-48 object-cover"
+                                            />
 
-                                            <h4 className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">
-                                                Ingredients:
-                                            </h4>
+                                            <div className="p-5">
+                                                <h3 className="text-xl font-semibold text-[#FF5722] dark:text-[#FF8A65] mb-2">
+                                                    {recipe.title}
+                                                </h3>
 
-                                            <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 text-sm space-y-1 max-h-24 overflow-y-auto scrollbar-thin scrollbar-thumb-[#FF7043]/40">
-                                                {
-                                                    recipe.ingredients.map((ing, index) => (
-                                                        <li key={index}>
-                                                            {ing}
-                                                        </li>
-                                                    ))
-                                                }
-                                            </ul>
+                                                <h4 className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-1">
+                                                    Ingredients:
+                                                </h4>
 
-                                            <div className="mt-5 flex gap-4">
-                                                <button
-                                                    onClick={() => router.push(`/recipe-details/${recipe.spoonacularId}`)}
-                                                    className="w-full bg-[#FF5722] border border-[#FF7043] text-white py-2 rounded-xl 
-                                                    hover:bg-white hover:dark:bg-[#2A2A2A] hover:text-[#FF5722] 
-                                                    cursor-pointer transition-all duration-300 font-medium"
-                                                >
-                                                    View Recipe
-                                                </button>
-
-                                                <button
-                                                    disabled={loader}
-                                                    onClick={() => handleDelete(recipe.spoonacularId)}
-                                                    className="w-full border border-[#FF7043] text-[#FF5722] 
-                                                    dark:text-[#FF8A65] py-2 rounded-xl hover:bg-[#FF7043] 
-                                                    hover:text-black hover:dark:text-black cursor-pointer 
-                                                    transition-all duration-300 font-medium"
-                                                >
+                                                <ul className="list-disc list-inside text-gray-700 dark:text-gray-300 text-sm space-y-1 max-h-24 overflow-y-auto scrollbar-thin scrollbar-thumb-[#FF7043]/40">
                                                     {
-                                                        loader ? (
-                                                            <div className="flex justify-center items-center">
-                                                                <Loader2 className="mr-2 h-5 w-5 animate-spin"/> Wait
-                                                            </div>
-                                                        )
-                                                        :
-                                                        (
-                                                            "Delete"
-                                                        )
+                                                        recipe.ingredients.map((ing, index) => (
+                                                            <li key={index}>
+                                                                {ing}
+                                                            </li>
+                                                        ))
                                                     }
-                                                </button>
+                                                </ul>
+
+                                                <div className="mt-5 flex gap-4">
+                                                    <button
+                                                        onClick={() => router.push(`/recipe-details/${recipe.spoonacularId}`)}
+                                                        className="w-full bg-[#FF5722] border border-[#FF7043] text-white py-2 rounded-xl 
+                                                        hover:bg-white hover:dark:bg-[#2A2A2A] hover:text-[#FF5722] 
+                                                        cursor-pointer transition-all duration-300 font-medium"
+                                                    >
+                                                        View Recipe
+                                                    </button>
+
+                                                    <button
+                                                        disabled={loader}
+                                                        onClick={() => handleDelete(recipe.spoonacularId)}
+                                                        className="w-full border border-[#FF7043] text-[#FF5722] 
+                                                        dark:text-[#FF8A65] py-2 rounded-xl hover:bg-[#FF7043] 
+                                                        hover:text-black hover:dark:text-black cursor-pointer 
+                                                        transition-all duration-300 font-medium"
+                                                    >
+                                                        {
+                                                            loader ? (
+                                                                <div className="flex justify-center items-center">
+                                                                    <Loader2 className="mr-2 h-5 w-5 animate-spin"/> Wait
+                                                                </div>
+                                                            )
+                                                            :
+                                                            (
+                                                                "Delete"
+                                                            )
+                                                        }
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                ))
+                                    ))
                             }
                         </div>
                     </div>

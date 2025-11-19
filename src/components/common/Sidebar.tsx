@@ -3,6 +3,7 @@
 import { LayoutDashboard, Salad, LogIn, LogOut, Settings, TimerReset } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { useAuth } from "@/context/AuthContext"
 
 export default function Sidebar() {
     const menuItems = [
@@ -12,6 +13,8 @@ export default function Sidebar() {
         { name: "Dashboard", icon: <LayoutDashboard size={20} />, href: "/dashboard" },
         { name: "Settings", icon: <Settings size={20} />, href: "/setting"}
     ]
+
+    const {logout} = useAuth();
 
     return (
         <aside
@@ -36,6 +39,7 @@ export default function Sidebar() {
 
             <div className="p-4 border-t border-white/20">
                 <Button
+                    onClick={logout}
                     className="w-full flex items-center justify-center gap-3 bg-white text-[#FF5722] dark:bg-[#FF5722] 
                         dark:text-white font-semibold rounded-xl hover:scale-105 transition-all duration-300 py-3"
                 >
