@@ -29,13 +29,13 @@ export function DesktopDropdown(){
                     <FaUser size={20} className="text-[#FF5722]"/>
                 </div>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-44" align="start">
-                <DropdownMenuLabel>Main Menu</DropdownMenuLabel>
-                <DropdownMenuSeparator />
+            <DropdownMenuContent className="w-44 text-gray-700 dark:text-gray-300 bg-[#ffffff] dark:bg-[#1F1F1F] border-[#FF7043]/40" align="start">
+                <DropdownMenuLabel className="text-[#FF5722]">Main Menu</DropdownMenuLabel>
+                <DropdownMenuSeparator className="bg-[#FF5722]"/>
                 <DropdownMenuGroup>
                     <DropdownMenuItem>
                         <Link href="/dashboard" className=" flex gap-2 items-center font-semibold">
-                            <LayoutDashboard /> Dashboard
+                            <LayoutDashboard className="text-[#FF5722]" /> Dashboard
                         </Link>
                     </DropdownMenuItem>
 
@@ -54,7 +54,7 @@ export function DesktopDropdown(){
                                 : 
                                 (
                                     <>
-                                        <LogOut className='w-5 h-5'/> Logout
+                                        <LogOut className='w-5 h-5 text-[#FF5722]'/> Logout
                                     </>
                                 )
                             }
@@ -77,20 +77,20 @@ export function MobileDropdown(){
                     <FaUser size={20} className="text-[#FF5722]"/>
                 </div>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-44" align="start">
-                <DropdownMenuLabel>Main Menu</DropdownMenuLabel>
-                <DropdownMenuSeparator />
+            <DropdownMenuContent className="w-44 text-gray-700 dark:text-gray-300 bg-[#ffffff] dark:bg-[#1F1F1F] border-[#FF7043]/40" align="start">
+                <DropdownMenuLabel className="text-[#FF5722]">Main Menu</DropdownMenuLabel>
+                <DropdownMenuSeparator className="bg-[#FF5722]" />
                 <DropdownMenuGroup>
                     <DropdownMenuItem>
                         <Link href="/" className=" flex gap-2 items-center font-semibold">
-                            <LucideHome /> Home
+                            <LucideHome className="text-[#FF5722]" /> Home
                         </Link>
                     </DropdownMenuItem>
                     {
                         user && (
                             <DropdownMenuItem>
                                 <Link href="/dashboard" className=" flex gap-2 items-center font-semibold">
-                                    <LayoutDashboard /> Dashboard
+                                    <LayoutDashboard className="text-[#FF5722]" /> Dashboard
                                 </Link>
                             </DropdownMenuItem>
                         )
@@ -99,7 +99,7 @@ export function MobileDropdown(){
                         user && (
                             <DropdownMenuItem>
                                 <Link href="/get-recipe" className=" flex gap-2 items-center font-semibold">
-                                    <GiCampCookingPot /> Get Recipe
+                                    <GiCampCookingPot className="text-[#FF5722]" /> Get Recipe
                                 </Link>
                             </DropdownMenuItem>
                         )
@@ -108,7 +108,7 @@ export function MobileDropdown(){
                         user && (
                             <DropdownMenuItem>
                                 <Link href="/log-nutrition" className=" flex gap-2 items-center font-semibold">
-                                    <MdOutlineChecklist /> Log Nutrition
+                                    <MdOutlineChecklist className="text-[#FF5722]" /> Log Nutrition
                                 </Link>
                             </DropdownMenuItem>
                         )
@@ -117,45 +117,45 @@ export function MobileDropdown(){
                         user && (
                             <DropdownMenuItem>
                                 <Link href="/recent-recipe" className=" flex gap-2 items-center font-semibold">
-                                    <TimerReset /> Recent Recipe
+                                    <TimerReset className="text-[#FF5722]" /> Recent Recipe
                                 </Link>
                             </DropdownMenuItem>
                         )
                     }
-                    {user && <DropdownMenuSeparator />}
+                    {user && <DropdownMenuSeparator className="bg-[#FF5722]" />}
 
                     <DropdownMenuItem>
                         <Link href="/about" className=" flex gap-2 items-center font-semibold">
-                            <IndentIncrease/> About
+                            <IndentIncrease className="text-[#FF5722]" /> About
                         </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
                         <Link href="/contact" className=" flex gap-2 items-center font-semibold">
-                            <Contact2Icon/> Contact Us
+                            <Contact2Icon className="text-[#FF5722]" /> Contact Us
                         </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
                         <Link href="/features" className=" flex gap-2 items-center font-semibold">
-                            <FaTools /> Features
+                            <FaTools className="text-[#FF5722]" /> Features
                         </Link>
                     </DropdownMenuItem>
                     {
                         user && (
                             <DropdownMenuItem>
                                 <Link href="/setting" className=" flex gap-2 items-center font-semibold">
-                                    <Settings /> Settings
+                                    <Settings className="text-[#FF5722]" /> Settings
                                 </Link>
                             </DropdownMenuItem>
                         )
                     }
 
-                    <DropdownMenuSeparator />
+                    <DropdownMenuSeparator className="bg-[#FF5722]" />
 
                     <DropdownMenuItem>
                         {
                             !user ? (
                                             <Link href="/sign-up" className=" flex gap-2 items-center font-semibold">
-                                                <LogIn /> Sign up
+                                                <LogIn className="text-[#FF5722]" /> Sign up
                                             </Link>
                                         ) 
                                         : 
@@ -174,7 +174,7 @@ export function MobileDropdown(){
                                                     : 
                                                     (
                                                         <>
-                                                            <LogOut className='w-5 h-5'/> Logout
+                                                            <LogOut className='w-5 h-5 text-[#FF5722]'/> Logout
                                                         </>
                                                     )
                                                 }

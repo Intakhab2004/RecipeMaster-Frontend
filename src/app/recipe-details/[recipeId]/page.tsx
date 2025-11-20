@@ -5,9 +5,9 @@ import Footer from "@/components/common/Footer";
 import NavBar from "@/components/common/NavBar";
 import Sidebar from "@/components/common/Sidebar";
 import { useAuth } from "@/context/AuthContext";
-import { recipe } from "@/services/apiUrl";
+import { nutrition, recipe } from "@/services/apiUrl";
 import axios, { isAxiosError } from "axios";
-import { Heart, Loader2 } from "lucide-react";
+import { Heart, Loader2, LogIn } from "lucide-react";
 import { useParams } from "next/navigation"
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -16,6 +16,7 @@ import { toast } from "sonner";
 export default function RecipeDetails(){
     const [loader, setLoader] = useState(false);
     const [saveLoader, setSaveLoader] = useState(false);
+    const [logLoader, setLogLoader] = useState(false);
     const [recipeDetails, setRecipeDetails] = useState<recipeType | null>(null);
     const { fetchUser } = useAuth();
 
@@ -164,6 +165,80 @@ export default function RecipeDetails(){
         }
     }
 
+    const logMealHandler = async() => {
+        try{
+            setLogLoader(true);
+
+            const response = await axios.post(nutrition.LOG_RECIPE_NUTRITION_API, {recipeId}, {withCredentials: true});
+            if(response.data.success){
+                console.log("Meal logged successfully");
+                fetchUser();
+                const toastId = toast(
+                    "Success ✅",
+                    {
+                        description: response.data.message,
+                        action: {
+                            label: "Dismiss",
+                            onClick: () => {
+                                toast.dismiss(toastId);
+                            }
+                        }
+                    }
+                )
+            }
+        }
+        catch(error: unknown){
+            if(isAxiosError(error)){
+                console.log("Something went wrong while logging the meal: ", error.response?.data);
+                const toastId = toast(
+                    "Something went wrong",
+                    {
+                        description: error.response?.data?.message,
+                        action: {
+                            label: "Dismiss",
+                            onClick: () => {
+                                toast.dismiss(toastId);
+                            }
+                        }
+                    }
+                )
+            }
+            else if(error instanceof Error){
+                console.log("General error:", error.message);
+                const toastId = toast(
+                    "Unexpected error",
+                    {
+                        description: error.message,
+                        action: {
+                            label: "Dismiss",
+                            onClick: () => {
+                                toast.dismiss(toastId)
+                            },
+                        },
+                    }
+                )
+            }
+            else{
+                console.log("An unknown error: ", error);
+                const toastId = toast(
+                    "Something went wrong",
+                    {
+                        description: "Please try again later",
+                        action: {
+                            label: "Dismiss",
+                            onClick: () => {
+                                toast.dismiss(toastId)
+                            },
+                        },
+                    }
+                )
+            }
+        }
+        finally{
+            setLogLoader(false);
+        }
+    }
+
 
 
     return (
@@ -204,27 +279,50 @@ export default function RecipeDetails(){
                                         ⚠️ Make sure to save this recipe! It disappears in 24 hrs!
                                     </span>
                                 </div>
-                                <button
-                                    onClick={saveHandler}
-                                    disabled={saveLoader}
-                                    className="flex items-center gap-2 bg-[#FF5722] hover:bg-[#FF7043] text-white px-6 py-3 
-                                        rounded-xl shadow-lg font-semibold cursor-pointer transition-all duration-300"
-                                >
-                                    {
-                                        saveLoader ? (
-                                            <>
-                                                <Loader2 className="mr-2 h-5 w-5 animate-spin"/> Please wait
-                                            </>
-                                        )
-                                        :
-                                        (
-                                            <>
-                                                <Heart size={18} />
-                                                Save Recipe
-                                            </>
-                                        )
-                                    }
-                                </button>
+                                <div className="flex justify-center items-center gap-3">
+                                    <button
+                                        onClick={saveHandler}
+                                        disabled={saveLoader}
+                                        className="flex items-center gap-2 bg-[#FF5722] hover:bg-white text-white hover:text-[#FF5722] px-6 py-3 
+                                            rounded-xl shadow-lg font-semibold cursor-pointer transition-all duration-300"
+                                    >
+                                        {
+                                            saveLoader ? (
+                                                <>
+                                                    <Loader2 className="mr-2 h-5 w-5 animate-spin"/> Please wait
+                                                </>
+                                            )
+                                            :
+                                            (
+                                                <>
+                                                    <Heart size={18} />
+                                                    Save Recipe
+                                                </>
+                                            )
+                                        }
+                                    </button>
+
+                                    <button
+                                        onClick={logMealHandler}
+                                        className="flex items-center gap-2 bg-white hover:bg-[#FF7043] text-[#FF5722] hover:text-white px-6 py-3 
+                                            rounded-xl shadow-lg font-semibold cursor-pointer transition-all duration-300"
+                                    >
+                                        {
+                                            logLoader ? (
+                                                <>
+                                                    <Loader2 className="mr-2 h-5 w-5 animate-spin"/> Please wait
+                                                </>
+                                            )
+                                            :
+                                            (
+                                                <>
+                                                    <LogIn size={18} />
+                                                    Log as Meal
+                                                </>
+                                            )
+                                        }
+                                    </button>
+                                </div>
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mb-12">

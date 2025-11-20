@@ -159,7 +159,7 @@ export default function Dashboard() {
                             <div className="flex items-center gap-3">
                                 <Calendar className="text-[#FF5722]" />
                                 <span>
-                                    DOB: 
+                                    DOB:
                                     {
                                         user?.personalDetails?.DOB ? new Date(user.personalDetails.DOB).toLocaleDateString("en-GB", {
                                             day: "numeric",
@@ -167,7 +167,7 @@ export default function Dashboard() {
                                             year: "numeric",
                                         })
                                         :
-                                        "Not Mentioned"
+                                        " Not Mentioned"
                                     }
                                 </span>
                             </div>
