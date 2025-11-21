@@ -34,8 +34,12 @@ export default function SignUpPage(){
 
         try{
             const response = await axios.post(auth.SIGN_IN_API, data, {withCredentials: true});
-            setUser(response.data.user);
+
             if(response.data.success){
+                const token = response.data.token;
+                document.cookie = `token=${token}; Path=/; SameSite=None; Secure;`;
+                setUser(response.data.user);
+
                 const toastId = toast(
                     "Success ✅",
                     {
