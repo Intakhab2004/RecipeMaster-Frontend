@@ -1,7 +1,7 @@
 "use client"
 
 import Sidebar from "@/components/common/Sidebar"
-import { Bookmark, Mail, User, Phone, Calendar, Heart, Loader2 } from "lucide-react"
+import { Bookmark, Mail, User, Phone, Calendar, Loader2 } from "lucide-react"
 import NavBar from "@/components/common/NavBar"
 import Footer from "@/components/common/Footer"
 import { recipeType } from "../get-recipe/page"
@@ -182,7 +182,7 @@ export default function Dashboard() {
                             {
                                 user?.favoriteRecipes?.length === 0 && (
                                     <p className="text-center col-span-full text-gray-600 dark:text-gray-300 text-lg">
-                                        You haven't saved any recipes yet 🍽️
+                                        You haven&apos;t saved any recipes yet 🍽️
                                     </p>
                                 )
                             }

@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import NavBar from "@/components/common/NavBar";
 import Sidebar from "@/components/common/Sidebar";
 import Footer from "@/components/common/Footer";
-import { User, Trash2, ImageDown, Loader2, Upload, CalendarDaysIcon, Router } from "lucide-react";
+import { User, Trash2, ImageDown, Loader2, Upload, CalendarDaysIcon } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 import { useForm } from "react-hook-form";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -576,7 +576,7 @@ export default function SettingPage(){
                         </p>
 
                         <p className="font-medium mb-3">
-                            Type <span className="text-red-500 font-semibold">"DELETE MY ACCOUNT"</span> to confirm:
+                            Type <span className="text-red-500 font-semibold">&quot;DELETE MY ACCOUNT&quot;</span> to confirm:
                         </p>
 
                         <Form {...deleteForm}>

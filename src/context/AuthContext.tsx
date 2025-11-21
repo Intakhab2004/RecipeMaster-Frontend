@@ -7,6 +7,9 @@ import { auth, getData } from "@/services/apiUrl";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+
 interface AuthContextType {
     user: any | null;
     setUser: (user: any | null) => void;

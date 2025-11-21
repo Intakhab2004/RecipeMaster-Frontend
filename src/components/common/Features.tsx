@@ -1,6 +1,5 @@
 "use client";
 
-import Navbar from "@/components/common/NavBar";
 import { Utensils, BarChart3, ClipboardList, Save, MessageSquare, Mic } from "lucide-react";
 
 const features = [
