@@ -35,3 +35,7 @@ export const userProfile = {
     UPDATE_PROFILE_IMAGE_API: BASE_URL + "/profile/update-profilePic",
     DELETE_USER_API: BASE_URL + "/profile/delete-user"
 }
+
+export const chatbot = {
+    GET_MESSAGE_RESPONSE_API: BASE_URL + "/chatbot/chatbot-reply"
+}
