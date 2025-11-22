@@ -29,7 +29,7 @@ const features = [
 
     {
         icon: <MessageSquare className="w-10 h-10 text-[#FF5722]" />,
-        title: "Smart Chatbot (Coming Soon)",
+        title: "Smart Chatbot",
         desc: "Get instant AI assistance for recipe suggestions and dietary guidance."
     },
 

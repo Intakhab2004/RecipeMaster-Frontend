@@ -8,8 +8,11 @@ import About from "@/components/common/About";
 import Footer from "@/components/common/Footer";
 import Features from "@/components/common/Features";
 import Contact from "@/components/common/Contact";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+	const router = useRouter();
+
 	return (
 		<section className="min-h-screen bg-[#FFF8F0] dark:bg-[#1F1F1F] text-gray-900 dark:text-gray-100 overflow-x-hidden scroll-smooth">
 			<Navbar />
@@ -23,7 +26,9 @@ export default function Home() {
 						Explore a world of flavors with 
 						<span className="font-semibold"> RecipeMaster</span>, your digital cookbook for mouthwatering inspiration!
 					</p>
-					<button className="mt-6 px-8 py-3 bg-[#FF5722] dark:bg-[#FF7043] text-white font-bold rounded-xl shadow-lg 
+					<button
+						onClick={() => router.push("/get-recipe")}
+						className="mt-6 px-8 py-3 bg-[#FF5722] dark:bg-[#FF7043] text-white font-bold rounded-xl shadow-lg 
 						hover:scale-105 hover:bg-[#FF7043] dark:hover:bg-[#FF8A65] transition-transform duration-300"
 					>
 						Get Started

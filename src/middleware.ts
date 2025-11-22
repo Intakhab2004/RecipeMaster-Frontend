@@ -24,5 +24,10 @@ export const config = {
         "/sign-in",
         "/verify/:path*",
         "/dashboard",
+        "/get-recipe",
+        "/log-nutrition",
+        "/recent-recipe",
+        "/chatbot",
+        "/setting"
     ]
 }

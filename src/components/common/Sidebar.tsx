@@ -1,6 +1,6 @@
 "use client"
 
-import { LayoutDashboard, Salad, LogIn, LogOut, Settings, TimerReset } from "lucide-react"
+import { Salad, LogIn, LogOut, Settings, TimerReset, Bot } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { useAuth } from "@/context/AuthContext"
@@ -10,7 +10,7 @@ export default function Sidebar() {
         { name: "Get Recipe", icon: <Salad size={20} />, href: "/get-recipe" },
         { name: "Log Nutrition", icon: <LogIn size={20} />, href: "/log-nutrition" },
         { name: "Recent Recipe", icon: <TimerReset size={20} />, href: "/recent-recipe"},
-        { name: "Dashboard", icon: <LayoutDashboard size={20} />, href: "/dashboard" },
+        { name: "AI Assistant", icon: <Bot size={20} />, href: "/chatbot" },
         { name: "Settings", icon: <Settings size={20} />, href: "/setting"}
     ]
 

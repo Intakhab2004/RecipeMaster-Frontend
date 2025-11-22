@@ -15,7 +15,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Contact2Icon, IndentIncrease, LayoutDashboard, Loader2, LogIn, LogOut, LucideHome, Settings, TimerReset } from "lucide-react";
+import { Bot, Contact2Icon, IndentIncrease, LayoutDashboard, Loader2, LogIn, LogOut, LucideHome, Settings, TimerReset } from "lucide-react";
 import { useAuth } from "@/context/AuthContext";
 
 
@@ -109,6 +109,15 @@ export function MobileDropdown(){
                             <DropdownMenuItem>
                                 <Link href="/log-nutrition" className=" flex gap-2 items-center font-semibold">
                                     <MdOutlineChecklist className="text-[#FF5722]" /> Log Nutrition
+                                </Link>
+                            </DropdownMenuItem>
+                        )
+                    }
+                    {
+                        user && (
+                            <DropdownMenuItem>
+                                <Link href="/chatbot" className=" flex gap-2 items-center font-semibold">
+                                    <Bot className="text-[#FF5722]" /> AI Assistant
                                 </Link>
                             </DropdownMenuItem>
                         )
