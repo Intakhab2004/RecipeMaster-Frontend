@@ -129,6 +129,7 @@ export default function ChatbotPage(){
                                                     ul: ({node, ...props}) => <ul className="list-disc ml-4 mb-2" {...props} />,
                                                     ol: ({node, ...props}) => <ol className="list-decimal ml-4 mb-2" {...props} />,
                                                     li: ({node, ...props}) => <li className="mb-1" {...props} />,
+                                                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                                     code: ({node, inline, ...props}: any) =>
                                                         inline ? (
                                                             <code className="bg-gray-300 dark:bg-gray-700 px-1 rounded text-sm" {...props} />

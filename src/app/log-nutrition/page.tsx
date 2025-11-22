@@ -42,7 +42,6 @@ export default function NutritionLog() {
     const [loader, setLoader] = useState(false);
     const { user, fetchUser } = useAuth();
 
-    // Auto-summary based on dummy logs
     const summary = user?.nutritionLogs?.reduce((acc: SummaryType, item: itemType) => {
             acc.calories += parseInt(item.nutrition.calories);
             acc.protein += parseInt(item.nutrition.protein);
